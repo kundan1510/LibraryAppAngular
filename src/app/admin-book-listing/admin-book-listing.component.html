@@ -1,0 +1,35 @@
+<div *ngIf="isAdmin">
+  <h2>Admin Book List</h2>
+  <button class="btn btn-primary mb-2" (click)="addBook()">Add Book</button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Book Url</th>
+        <th>Copies Available</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of books">
+        <td>{{ book.title }}</td>
+        <td>{{ book.description }}</td>
+        <td>{{ book.imageUrl }}</td>
+        <td>{{ book.maxCopies }}</td>
+
+        <td>
+          <button
+            class="btn btn-info"
+            style="margin-right: 10px"
+            (click)="editBook(book.id)"
+          >
+            Edit
+          </button>
+          <button class="btn btn-danger" (click)="deleteBook(book.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,109 @@
+<div *ngIf="isLoading" class="text-center my-5">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div class="container">
+  <h3>Available Books</h3>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let book of books">
+      <div class="card mb-4">
+        <img
+          [src]="book.imageUrl || 'assets/no-image.png'"
+          class="card-img-top"
+          alt="{{ book.title }}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Title:{{ book.title }}</h5>
+          <p class="card-text">Description: {{ book.description }}</p>
+          <p class="card-text">Available Copies: {{ book.maxCopies }}</p>
+          <!-- <a
+            href="#"
+            class="btn btn-primary"
+            *ngIf="book.maxCopies > 0"
+            (click)="openSubscriptionForm(book)"
+          >
+            Subscribe
+          </a> -->
+          <button
+            class="btn btn-primary"
+            *ngIf="book.maxCopies > 0"
+            (click)="openSubscriptionForm(book)"
+          >
+            Subscribe
+          </button>
+
+          <button
+            class="btn btn-secondary"
+            disabled
+            *ngIf="book.maxCopies === 0"
+          >
+            Not Available
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subscription Form Modal -->
+  <div
+    *ngIf="selectedBook"
+    class="modal"
+    tabindex="-1"
+    style="display: block; background: rgba(0, 0, 0, 0.5)"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Subscribe to {{ selectedBook.title }}</h5>
+          <button type="button" class="close" (click)="closeSubscriptionForm()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            [formGroup]="subscriptionForm"
+            (ngSubmit)="submitSubscription()"
+          >
+            <div class="form-group">
+              <label for="days">Number of Days (Max 10):</label>
+              <input
+                id="days"
+                type="number"
+                class="form-control"
+                formControlName="days"
+              />
+              <div
+                *ngIf="
+                  subscriptionForm.controls['days'].invalid &&
+                  (subscriptionForm.controls['days'].dirty ||
+                    subscriptionForm.controls['days'].touched)
+                "
+                class="text-danger"
+              >
+                <small
+                  *ngIf="subscriptionForm.controls['days'].errors?.['required']"
+                  >Days is required.</small
+                >
+                <small *ngIf="subscriptionForm.controls['days'].errors?.['min']"
+                  >Minimum 1 day.</small
+                >
+                <small *ngIf="subscriptionForm.controls['days'].errors?.['max']"
+                  >Maximum 10 days.</small
+                >
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-success"
+              [disabled]="subscriptionForm.invalid"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

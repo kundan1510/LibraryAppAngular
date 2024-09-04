@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>My Subscriptions</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Book ID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subscription of subscriptions">
+        <td>{{ subscription.bookId }}</td>
+        <td>{{ subscription.startDate | date }}</td>
+        <td>{{ subscription.endDate | date }}</td>
+        <td>{{ subscription.cost | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
